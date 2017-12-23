@@ -1,0 +1,6 @@
+<resources>
+    <item name="plusBar" type="id"/>
+    <item name="minusBar" type="id"/>
+    <item name="divider" type="id"/>
+    <item name="userList" type="id"/>
+</resources>

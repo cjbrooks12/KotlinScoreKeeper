@@ -1,0 +1,25 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion allCompileSdkVersion
+    defaultConfig {
+        minSdkVersion allMinSdkVersion
+        targetSdkVersion allTargetSdkVersion
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation "com.google.dagger:dagger:$allDaggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$allDaggerVersion"
+    implementation project(':core')
+}
