@@ -1,10 +1,11 @@
 package com.caseyjbrooks.games.basic
 
+import android.os.Bundle
 import android.view.Menu
 import com.caseyjbrooks.scorekeeper.core.DrawerMenuItem
 import com.caseyjbrooks.scorekeeper.core.api.BaseFragment
 
-class BasicGameMenuItem : DrawerMenuItem {
+class TallyGameMenuItem : DrawerMenuItem {
 
     override fun getTitle(): String {
         return "Tally"
@@ -30,8 +31,8 @@ class BasicGameMenuItem : DrawerMenuItem {
         return "Basic Games"
     }
 
-    override fun getFragment(): BaseFragment {
-        return TallyGameFragment()
+    override fun getFragment(): Pair<Class<out BaseFragment>, Bundle?> {
+        return TallyGameFragment::class.java to null
     }
 
 }

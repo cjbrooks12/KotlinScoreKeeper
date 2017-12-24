@@ -1,9 +1,9 @@
 package com.caseyjbrooks.games.basic
 
+import android.os.Bundle
 import android.view.Menu
 import com.caseyjbrooks.games.sevenWonders.R
 import com.caseyjbrooks.scorekeeper.core.DrawerMenuItem
-import com.caseyjbrooks.scorekeeper.core.HomescreenFragment
 import com.caseyjbrooks.scorekeeper.core.api.BaseFragment
 
 class SevenWondersGameMenuItem : DrawerMenuItem {
@@ -32,8 +32,8 @@ class SevenWondersGameMenuItem : DrawerMenuItem {
         return "Special Games"
     }
 
-    override fun getFragment(): BaseFragment {
-        return HomescreenFragment().setText("Seven Wonders fragment")
+    override fun getFragment(): Pair<Class<out BaseFragment>, Bundle?> {
+        return SevenWondersGameFragment::class.java to null
     }
 
 }

@@ -6,11 +6,11 @@ import dagger.Provides
 import dagger.multibindings.IntoSet
 
 @Module
-class BasicGameModule {
+class TallyGameModule {
 
     @Provides @IntoSet
     fun provideBasicGameMenuItem(): DrawerMenuItem {
-        return BasicGameMenuItem()
+        return TallyGameMenuItem()
     }
 
 }

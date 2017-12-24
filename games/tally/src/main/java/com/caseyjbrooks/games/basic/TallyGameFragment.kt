@@ -7,6 +7,8 @@ import com.caseyjbrooks.scorekeeper.core.api.BaseActivity
 import com.caseyjbrooks.scorekeeper.core.api.BaseApplication
 import com.caseyjbrooks.scorekeeper.core.api.BaseComponent
 import com.caseyjbrooks.scorekeeper.core.api.BaseFragment
+import com.caseyjbrooks.scorekeeper.core.db.CorePreferences
+import com.caseyjbrooks.scorekeeper.core.findLong
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.sdk25.coroutines.onLongClick
@@ -14,7 +16,6 @@ import org.jetbrains.anko.sdk25.coroutines.onLongClick
 class TallyGameFragment : BaseFragment() {
 
     private lateinit var component: BaseComponent
-
     lateinit var gameViewModel : TallyGameViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +27,8 @@ class TallyGameFragment : BaseFragment() {
         component = (activity.application as BaseApplication).component
         component.inject(this)
 
-        gameViewModel = TallyGameViewModel(activity as BaseActivity, component, 1)
+        val gameId = CorePreferences(activity, "tally").get { findLong("lastGame", { 0 }) }
+        gameViewModel = TallyGameViewModel(activity as BaseActivity, component, gameId)
         gameViewModel.setup()
 
         return setupView()
@@ -39,9 +41,9 @@ class TallyGameFragment : BaseFragment() {
                 val minusBar = linearLayout {
                     id = R.id.minusBar
 
-                    weightSum = gameViewModel.tallyService.buttonValues.size.toFloat()
+                    weightSum = gameViewModel.buttonValues.size.toFloat()
 
-                    for ((index, buttonVal) in gameViewModel.tallyService.buttonValues.withIndex()) {
+                    for ((index, buttonVal) in gameViewModel.buttonValues.withIndex()) {
                         val btn = button("-$buttonVal") {
                             onClick { gameViewModel.updateVal(index, false) }
                             onLongClick { gameViewModel.changeButtonValue(ankoContext, index, false) }
@@ -56,8 +58,8 @@ class TallyGameFragment : BaseFragment() {
 
                 val plusBar = linearLayout {
                     id = R.id.plusBar
-                    weightSum = gameViewModel.tallyService.buttonValues.size.toFloat()
-                    for ((index, buttonVal) in gameViewModel.tallyService.buttonValues.withIndex()) {
+                    weightSum = gameViewModel.buttonValues.size.toFloat()
+                    for ((index, buttonVal) in gameViewModel.buttonValues.withIndex()) {
                         val btn = button("+$buttonVal") {
                             onClick { gameViewModel.updateVal(index, true) }
                             onLongClick { gameViewModel.changeButtonValue(ankoContext, index, true) }

@@ -1,12 +1,12 @@
-package com.caseyjbrooks.scorekeeper.core.games
+package com.caseyjbrooks.scorekeeper.core.api
 
-import com.caseyjbrooks.scorekeeper.core.api.BaseActivity
-import com.caseyjbrooks.scorekeeper.core.api.BaseComponent
+import com.caseyjbrooks.scorekeeper.core.db.CorePreferences
 import com.caseyjbrooks.scorekeeper.core.db.users.Game
 import com.caseyjbrooks.scorekeeper.core.db.users.GameUser
 import com.caseyjbrooks.scorekeeper.core.db.users.User
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.Appcompat
+import org.json.JSONObject
 
 abstract class BaseGameViewModel<T>(
         val activity: BaseActivity,
@@ -22,7 +22,7 @@ abstract class BaseGameViewModel<T>(
         reloadData()
     }
 
-    protected abstract fun mapper(user: User): T
+    protected abstract fun mapper(user: User, gameUser: GameUser): T
 
     protected open fun reloadData() {
         val game: Game? = component.db().gameDao().findGameById(gameType, gameId)
@@ -33,13 +33,36 @@ abstract class BaseGameViewModel<T>(
             val newGame = Game(gameType, "{}")
             val newGameId = component.db().gameDao().insertGame(newGame)
 
+            CorePreferences(activity, gameType).set { putLong("lastGame", newGameId) }
+
             this.gameId = newGameId
             this.game = component.db().gameDao().findGameById(gameType, newGameId)
         }
 
-        val gameUserIds = component.db().gameUserDao().getAllForGame(this.gameId).map { it.userId }
-        adapter.users = component.db().userDao().getAllIn(gameUserIds).map { mapper(it) }
+        val data = JSONObject(this.game!!.gameData)
+        initFromData(data)
+
+        val gameUsers =  component.db().gameUserDao().getAllForGame(this.gameId)
+        val gameUserIds = gameUsers.map { it.userId }
+
+        val gameUserMap: MutableMap<Long, GameUser> = mutableMapOf()
+        gameUsers.forEach { gameUserMap[it.userId] = it }
+
+        adapter.users = component.db().userDao().getAllIn(gameUserIds).map { mapper(it, gameUserMap[it.id]!!) }
         adapter.notifyDataSetChanged()
+    }
+
+// Save Game State
+//--------------------------------------------------------------------------------------------------
+
+    abstract fun initFromData(savedData: JSONObject)
+
+    abstract fun getSaveData() : JSONObject
+
+    fun saveGame() {
+        val data = getSaveData()
+        game.gameData = data.toString()
+        component.db().gameDao().updateGame(game)
     }
 
 // Game Dialogs

@@ -1,10 +1,8 @@
-package com.caseyjbrooks.scorekeeper.core.games
+package com.caseyjbrooks.scorekeeper.core.api
 
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import com.caseyjbrooks.scorekeeper.core.api.BaseActivity
-import com.caseyjbrooks.scorekeeper.core.api.BaseComponent
 
 abstract class BaseGameAdapter<T>(
         val activity: BaseActivity,

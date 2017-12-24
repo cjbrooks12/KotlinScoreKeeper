@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import com.caseyjbrooks.scorekeeper.core.HoloColor
 import com.caseyjbrooks.scorekeeper.core.api.BaseActivity
 import com.caseyjbrooks.scorekeeper.core.api.BaseComponent
-import com.caseyjbrooks.scorekeeper.core.games.BaseGameAdapter
+import com.caseyjbrooks.scorekeeper.core.api.BaseGameAdapter
 import org.jetbrains.anko.*
 import org.jetbrains.anko.cardview.v7.cardView
 import org.jetbrains.anko.sdk25.coroutines.onClick
@@ -18,7 +18,7 @@ class TallyUserListAdapter(
         activity: BaseActivity,
         component: BaseComponent,
         gameViewModel: TallyGameViewModel
-) : BaseGameAdapter<TallyViewModel>(activity, component, gameViewModel) {
+) : BaseGameAdapter<TallyUserViewModel>(activity, component, gameViewModel) {
 
     override fun getView(i : Int, v : View?, parent : ViewGroup?) : View {
         val vm = getItem(i)

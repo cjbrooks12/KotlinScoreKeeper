@@ -1,5 +1,6 @@
 package com.caseyjbrooks.scorekeeper.core
 
+import android.os.Bundle
 import com.caseyjbrooks.scorekeeper.core.api.BaseFragment
 
 interface DrawerMenuItem {
@@ -16,6 +17,6 @@ interface DrawerMenuItem {
 
     fun getGroupName(): String?
 
-    fun getFragment(): BaseFragment
+    fun getFragment(): Pair<Class<out BaseFragment>, Bundle?>
 
 }

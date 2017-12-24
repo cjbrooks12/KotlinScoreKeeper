@@ -1,5 +1,6 @@
 package com.caseyjbrooks.games.basic
 
+import android.os.Bundle
 import android.view.Menu
 import com.caseyjbrooks.games.ticketToRide.R
 import com.caseyjbrooks.scorekeeper.core.DrawerMenuItem
@@ -32,8 +33,10 @@ class TicketToRideGameMenuItem : DrawerMenuItem {
         return "Special Games"
     }
 
-    override fun getFragment(): BaseFragment {
-        return HomescreenFragment().setText("Ticket To Ride fragment")
+    override fun getFragment(): Pair<Class<out BaseFragment>, Bundle?> {
+        var args = Bundle()
+        args.putString("text", "Ticket To Ride fragment")
+        return HomescreenFragment::class.java to args
     }
 
 }
