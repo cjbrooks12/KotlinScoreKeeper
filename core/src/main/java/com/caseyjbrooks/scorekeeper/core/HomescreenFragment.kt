@@ -12,22 +12,16 @@ import org.jetbrains.anko.verticalLayout
 
 class HomescreenFragment : BaseFragment() {
 
-    var text: String? = null
-    var tv: TextView? = null
+    lateinit var text: String
+    lateinit var tv: TextView
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return with(AnkoContext.create(context, this)) {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        text = if(arguments != null && arguments!!.containsKey("text")) { arguments!!.getString("text") } else { "Homescreen fragment" }
+
+        return with(AnkoContext.create(context!!, this)) {
             verticalLayout {
-                tv = textView(text?: "Homescreen fragment")
+                tv = textView(text)
             }
         }
     }
-
-    fun setText(text: String): HomescreenFragment {
-        this.text = text
-        tv?.text = text
-
-        return this
-    }
-
 }

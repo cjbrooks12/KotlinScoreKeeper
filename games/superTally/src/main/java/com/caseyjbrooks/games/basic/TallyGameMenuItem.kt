@@ -2,15 +2,13 @@ package com.caseyjbrooks.games.basic
 
 import android.os.Bundle
 import android.view.Menu
-import com.caseyjbrooks.games.ticketToRide.R
 import com.caseyjbrooks.scorekeeper.core.DrawerMenuItem
-import com.caseyjbrooks.scorekeeper.core.HomescreenFragment
 import com.caseyjbrooks.scorekeeper.core.api.BaseFragment
 
-class TicketToRideGameMenuItem : DrawerMenuItem {
+class TallyGameMenuItem : DrawerMenuItem {
 
     override fun getTitle(): String {
-        return "Ticket To Ride"
+        return "Tally"
     }
 
     override fun getGroup(): Int {
@@ -18,25 +16,23 @@ class TicketToRideGameMenuItem : DrawerMenuItem {
     }
 
     override fun getId(): Int {
-        return 2
+        return 1
     }
 
     override fun getOrder(): Int {
-        return 3
+        return 1
     }
 
     override fun getIcon(): Int {
-        return R.drawable.ic_ticket_to_ride
+        return R.drawable.ic_tally
     }
 
     override fun getGroupName(): String? {
-        return "Special Games"
+        return "Basic Games"
     }
 
     override fun getFragment(): Pair<Class<out BaseFragment>, Bundle?> {
-        var args = Bundle()
-        args.putString("text", "Ticket To Ride fragment")
-        return HomescreenFragment::class.java to args
+        return TallyGameFragment::class.java to null
     }
 
 }
