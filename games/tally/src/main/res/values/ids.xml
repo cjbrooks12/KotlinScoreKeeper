@@ -3,4 +3,8 @@
     <item name="minusBar" type="id"/>
     <item name="divider" type="id"/>
     <item name="userList" type="id"/>
+
+    <item name="username" type="id"/>
+    <item name="score" type="id"/>
+    <item name="history" type="id"/>
 </resources>

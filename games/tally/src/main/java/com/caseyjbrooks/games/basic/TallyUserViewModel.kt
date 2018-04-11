@@ -1,11 +1,14 @@
 package com.caseyjbrooks.games.basic
 
+import android.os.Handler
+import android.util.Log
 import com.caseyjbrooks.scorekeeper.core.api.BaseComponent
 import com.caseyjbrooks.scorekeeper.core.api.BaseUserViewModel
 import com.caseyjbrooks.scorekeeper.core.db.users.GameUser
 import com.caseyjbrooks.scorekeeper.core.db.users.User
 import org.json.JSONArray
 import org.json.JSONObject
+
 
 class TallyUserViewModel(
         component: BaseComponent,
@@ -18,7 +21,7 @@ class TallyUserViewModel(
 
     var score = 0
     var tempScore = 0
-    var history: MutableList<Int> = listOf(0).toMutableList()
+    lateinit var history: MutableList<Int>
     var selected = false
 
     override fun initFromData(savedData: JSONObject) {
@@ -32,6 +35,9 @@ class TallyUserViewModel(
                 history.add(historyArray.getInt(i))
             }
         }
+        else {
+            history = listOf(0).toMutableList()
+        }
     }
 
     override fun getSaveData() : JSONObject {
@@ -43,23 +49,27 @@ class TallyUserViewModel(
 
         data.put("history", historyArray)
 
+        Log.v("getSaveData", data.toString())
+
         return data
     }
 
     fun increment(i: Int) {
         tempScore += gameViewModel.buttonValues[i]
+        startAutosave()
     }
 
     fun decrement(i: Int) {
         tempScore -= gameViewModel.buttonValues[i]
+        startAutosave()
     }
 
     fun commitTempScore() {
+        selected = false
         if(tempScore != 0) {
             history.add(tempScore)
             score += tempScore
             tempScore = 0
-            selected = false
             saveUser()
         }
     }
@@ -74,6 +84,29 @@ class TallyUserViewModel(
         history = listOf(0).toMutableList()
         selected = false
         super.reset()
+    }
+
+    var handler: Handler? = null
+    var autosaveRunnable: Runnable? = null
+
+    private fun startAutosave() {
+        if(handler != null && autosaveRunnable != null) {
+            handler!!.removeCallbacks(autosaveRunnable!!)
+        }
+        if(handler == null) {
+            handler = Handler()
+        }
+        if(autosaveRunnable == null) {
+            autosaveRunnable = Runnable {
+                commitTempScore()
+                gameViewModel.adapter.notifyDataSetChanged()
+            }
+        }
+        handler!!.postDelayed(autosaveRunnable, TIMEOUT)
+    }
+
+    companion object {
+        const val TIMEOUT = 6000L
     }
 
 }

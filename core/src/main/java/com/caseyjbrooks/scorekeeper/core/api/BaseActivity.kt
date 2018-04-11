@@ -65,6 +65,7 @@ abstract class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationIt
             val fragmentClassPair = matchingItem.getFragment()
             fragment = fragmentClassPair.first.newInstance()
             fragment.arguments = fragmentClassPair.second
+            title = matchingItem.getTitle()
             this.replaceFragment(fragment, R.id.container)
             fab.hide()
 
@@ -77,6 +78,10 @@ abstract class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationIt
                 putInt("lastMenuItem", id)
             }
         }
+    }
+
+    fun hardRefresh() {
+        supportFragmentManager.beginTransaction().detach(fragment).attach(fragment).commit()
     }
 
 // Setup Menu

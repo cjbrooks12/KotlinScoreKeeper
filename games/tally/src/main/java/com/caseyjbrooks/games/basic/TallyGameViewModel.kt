@@ -7,8 +7,13 @@ import com.caseyjbrooks.scorekeeper.core.api.BaseComponent
 import com.caseyjbrooks.scorekeeper.core.api.BaseGameViewModel
 import com.caseyjbrooks.scorekeeper.core.db.users.GameUser
 import com.caseyjbrooks.scorekeeper.core.db.users.User
-import org.jetbrains.anko.*
+import org.jetbrains.anko.AnkoContext
+import org.jetbrains.anko.alert
 import org.jetbrains.anko.appcompat.v7.Appcompat
+import org.jetbrains.anko.customView
+import org.jetbrains.anko.editText
+import org.jetbrains.anko.toast
+import org.jetbrains.anko.verticalLayout
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -24,7 +29,7 @@ class TallyGameViewModel(
     val minusButtons: MutableList<Button> = emptyList<Button>().toMutableList()
 
     override fun setup() {
-        adapter = TallyUserListAdapter(activity, component, this)
+        adapter = TallyUserAdapter(activity, component, this)
 
         super.setup()
     }
@@ -111,4 +116,5 @@ class TallyGameViewModel(
 
         return data
     }
+
 }

@@ -15,14 +15,13 @@ class HomescreenFragment : BaseFragment() {
     lateinit var text: String
     lateinit var tv: TextView
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        text = if(arguments.containsKey("text")) { arguments.getString("text") } else { "Homescreen fragment" }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        text = if(arguments != null && arguments!!.containsKey("text")) { arguments!!.getString("text") } else { "Homescreen fragment" }
 
-        return with(AnkoContext.create(context, this)) {
+        return with(AnkoContext.create(context!!, this)) {
             verticalLayout {
                 tv = textView(text)
             }
         }
     }
-
 }

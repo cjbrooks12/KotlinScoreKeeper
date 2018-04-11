@@ -4,8 +4,16 @@ import com.caseyjbrooks.scorekeeper.core.db.CorePreferences
 import com.caseyjbrooks.scorekeeper.core.db.users.Game
 import com.caseyjbrooks.scorekeeper.core.db.users.GameUser
 import com.caseyjbrooks.scorekeeper.core.db.users.User
-import org.jetbrains.anko.*
+import org.jetbrains.anko.AnkoContext
+import org.jetbrains.anko.alert
 import org.jetbrains.anko.appcompat.v7.Appcompat
+import org.jetbrains.anko.cancelButton
+import org.jetbrains.anko.customView
+import org.jetbrains.anko.editText
+import org.jetbrains.anko.selector
+import org.jetbrains.anko.toast
+import org.jetbrains.anko.verticalLayout
+import org.jetbrains.anko.yesButton
 import org.json.JSONObject
 
 abstract class BaseGameViewModel<T>(
@@ -39,7 +47,7 @@ abstract class BaseGameViewModel<T>(
             this.game = component.db().gameDao().findGameById(gameType, newGameId)
         }
 
-        val data = JSONObject(this.game!!.gameData)
+        val data = JSONObject(this.game.gameData)
         initFromData(data)
 
         val gameUsers =  component.db().gameUserDao().getAllForGame(this.gameId)
@@ -93,7 +101,7 @@ abstract class BaseGameViewModel<T>(
         val gameUserIds = gameUsers.map { it.userId }
         val users = component.db().userDao().getAllNotIn(gameUserIds)
 
-        selector("Add Existing User?", users.map { it.name }, { dialogInterface, i ->
+        selector("Add Existing User?", users.map { it.name }, { _, i ->
             toast("adding ${users[i].name}")
             addExistingUser(users[i])
         })
@@ -143,6 +151,19 @@ abstract class BaseGameViewModel<T>(
             cancelButton { }
         }.show()
     }
+
+    fun <UI> changeLayout(ui: AnkoContext<UI>) = with(ui) {
+        val layouts = listOf("List (Comfy)", "List (Compact)", "Grid")
+        selector("Pick Layout", layouts, { dialogInterface, i ->
+            CorePreferences(activity, gameType).set { putString("layout", layouts[i]) }
+            activity.hardRefresh()
+        })
+    }
+
+    val layout: String
+        get() {
+            return CorePreferences(activity, gameType).get { getString("layout", "List (Comfy)") }
+        }
 
 // Handle Dialog Actions
 //--------------------------------------------------------------------------------------------------

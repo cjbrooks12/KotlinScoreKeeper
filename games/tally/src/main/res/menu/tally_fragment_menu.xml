@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:android="http://schemas.android.com/apk/res/android">
-
     <item
         android:id="@+id/addNewUser"
         android:icon="@drawable/ic_person_add"
@@ -16,5 +15,10 @@
         android:id="@+id/resetGame"
         android:icon="@drawable/ic_refresh"
         android:title="Reset Game"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/changeLayout"
+        android:icon="@drawable/ic_view_list"
+        android:title="Change Layout"
         app:showAsAction="ifRoom"/>
 </menu>
