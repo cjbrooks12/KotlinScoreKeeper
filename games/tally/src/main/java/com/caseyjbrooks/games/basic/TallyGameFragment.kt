@@ -12,6 +12,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import com.caseyjbrooks.scorekeeper.core.api.BaseActivity
 import com.caseyjbrooks.scorekeeper.core.api.BaseApplication
 import com.caseyjbrooks.scorekeeper.core.api.BaseComponent
@@ -28,7 +29,9 @@ import org.jetbrains.anko.alignParentTop
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.button
 import org.jetbrains.anko.dip
+import org.jetbrains.anko.leftOf
 import org.jetbrains.anko.linearLayout
+import org.jetbrains.anko.matchParent
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.jetbrains.anko.relativeLayout
 import org.jetbrains.anko.sdk25.coroutines.onClick
@@ -64,9 +67,14 @@ class TallyGameFragment : BaseFragment() {
             relativeLayout {
                 val minusBar = linearLayout {
                     id = R.id.minusBar
+                    orientation = if (activity!!.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                        LinearLayout.HORIZONTAL
+                    }
+                    else {
+                        LinearLayout.VERTICAL
+                    }
 
                     weightSum = gameViewModel.buttonValues.size.toFloat()
-
                     for ((index, buttonVal) in gameViewModel.buttonValues.withIndex()) {
                         val btn = button("-$buttonVal") {
                             onClick { gameViewModel.updateVal(index, false) }
@@ -75,13 +83,27 @@ class TallyGameFragment : BaseFragment() {
                         gameViewModel.minusButtons.add(btn)
                     }
                 }.lparams {
-                    alignParentLeft()
-                    alignParentRight()
-                    alignParentBottom()
+                    if (activity!!.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                        alignParentLeft()
+                        alignParentRight()
+                        alignParentBottom()
+                    }
+                    else {
+                        alignParentRight()
+                        alignParentBottom()
+                        alignParentTop()
+                    }
                 }
 
                 val plusBar = linearLayout {
                     id = R.id.plusBar
+                    orientation = if (activity!!.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                        LinearLayout.HORIZONTAL
+                    }
+                    else {
+                        LinearLayout.VERTICAL
+                    }
+
                     weightSum = gameViewModel.buttonValues.size.toFloat()
                     for ((index, buttonVal) in gameViewModel.buttonValues.withIndex()) {
                         val btn = button("+$buttonVal") {
@@ -91,19 +113,37 @@ class TallyGameFragment : BaseFragment() {
                         gameViewModel.plusButtons.add(btn)
                     }
                 }.lparams {
-                    alignParentLeft()
-                    alignParentRight()
-                    above(minusBar)
+                    if (activity!!.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                        alignParentLeft()
+                        alignParentRight()
+                        above(minusBar)
+                    }
+                    else {
+                        alignParentBottom()
+                        alignParentTop()
+                        leftOf(minusBar)
+                    }
                 }
 
                 val dividerView = view {
                     id = R.id.divider
                     backgroundColor = Color.LTGRAY
                 }.lparams {
-                    height = dip(1)
-                    alignParentLeft()
-                    alignParentRight()
-                    above(plusBar)
+
+                    if (activity!!.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                        height = dip(1)
+                        width = matchParent
+                        alignParentLeft()
+                        alignParentRight()
+                        above(plusBar)
+                    }
+                    else {
+                        width = dip(1)
+                        height = matchParent
+                        alignParentBottom()
+                        alignParentTop()
+                        leftOf(plusBar)
+                    }
                 }
 
                 recyclerView {
@@ -116,17 +156,28 @@ class TallyGameFragment : BaseFragment() {
                     adapter = BaseRecyclerViewGameAdapter(gameViewModel.adapter)
                     isNestedScrollingEnabled = true
                 }.lparams {
-                    alignParentTop()
-                    alignParentLeft()
-                    alignParentRight()
-                    above(dividerView)
+                    width = matchParent
+                    if (activity!!.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                        alignParentTop()
+                        alignParentLeft()
+                        alignParentRight()
+                        above(dividerView)
+                    }
+                    else {
+                        alignParentTop()
+                        alignParentBottom()
+                        alignParentLeft()
+//                        alignParentRight()
+                        leftOf(dividerView)
+//                        sameRight(dividerView)
+                    }
                 }
             }
         }
     }
 
 // Menu
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.tally_fragment_menu, menu)

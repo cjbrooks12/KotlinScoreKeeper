@@ -3,14 +3,17 @@ package com.caseyjbrooks.games.basic
 import com.caseyjbrooks.scorekeeper.core.DrawerMenuItem
 import dagger.Module
 import dagger.Provides
-import dagger.multibindings.IntoSet
+import dagger.multibindings.ElementsIntoSet
 
 @Module
 class TallyGameModule {
 
-    @Provides @IntoSet
-    fun provideBasicGameMenuItem(): DrawerMenuItem {
-        return TallyGameMenuItem()
+    private val enabled
+        get() = true
+
+    @Provides @ElementsIntoSet
+    fun provideBasicGameMenuItem(): Set<DrawerMenuItem> {
+        return if(enabled) setOf(TallyGameMenuItem()) else emptySet()
     }
 
 }

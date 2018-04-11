@@ -17,17 +17,25 @@ class TallyUserViewModel(
         gameUser: GameUser
 ) : BaseUserViewModel<TallyGameViewModel>(component, gameViewModel, user, gameUser) {
 
+    companion object {
+        const val TIMEOUT = 6000L
+    }
+
     val id: Long = user.id
 
-    var score = 0
+    val score: Int
+        get() {
+            return history.sum()
+        }
+
     var tempScore = 0
     lateinit var history: MutableList<Int>
     var selected = false
 
+    var handler: Handler? = null
+    var autosaveRunnable: Runnable? = null
+
     override fun initFromData(savedData: JSONObject) {
-        if(savedData.has("score")) {
-            score = savedData.getInt("score")
-        }
         if(savedData.has("history")) {
             history = emptyList<Int>().toMutableList()
             val historyArray = savedData.getJSONArray("history")
@@ -42,7 +50,6 @@ class TallyUserViewModel(
 
     override fun getSaveData() : JSONObject {
         val data = JSONObject()
-        data.put("score", score)
 
         val historyArray = JSONArray()
         history.forEach { historyArray.put(it) }
@@ -65,34 +72,47 @@ class TallyUserViewModel(
     }
 
     fun commitTempScore() {
-        selected = false
-        if(tempScore != 0) {
-            history.add(tempScore)
-            score += tempScore
-            tempScore = 0
-            saveUser()
+        clearCallbacks()
+        if(selected) {
+            if(tempScore == 0) {
+                selected = false
+            }
+            else {
+                history.add(tempScore)
+                tempScore = 0
+                selected = false
+                saveUser()
+            }
+        }
+        else {
+            if(tempScore == 0) {
+                selected = true
+            }
+            else {
+                history.add(tempScore)
+                tempScore = 0
+                selected = false
+                saveUser()
+            }
         }
     }
 
-    fun toggleSelected() {
-        selected = !selected
-    }
-
     override fun reset() {
-        score = 0
+        clearCallbacks()
         tempScore = 0
         history = listOf(0).toMutableList()
         selected = false
         super.reset()
     }
 
-    var handler: Handler? = null
-    var autosaveRunnable: Runnable? = null
-
-    private fun startAutosave() {
+    private fun clearCallbacks() {
         if(handler != null && autosaveRunnable != null) {
             handler!!.removeCallbacks(autosaveRunnable!!)
         }
+    }
+
+    private fun startAutosave() {
+        clearCallbacks()
         if(handler == null) {
             handler = Handler()
         }
@@ -103,10 +123,6 @@ class TallyUserViewModel(
             }
         }
         handler!!.postDelayed(autosaveRunnable, TIMEOUT)
-    }
-
-    companion object {
-        const val TIMEOUT = 6000L
     }
 
 }

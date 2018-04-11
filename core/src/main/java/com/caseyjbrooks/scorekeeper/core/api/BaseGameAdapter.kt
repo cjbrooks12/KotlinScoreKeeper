@@ -9,7 +9,6 @@ import org.jetbrains.anko.cardview.v7.cardView
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.frameLayout
 import org.jetbrains.anko.horizontalMargin
-import org.jetbrains.anko.matchParent
 import org.jetbrains.anko.padding
 import org.jetbrains.anko.verticalMargin
 
@@ -38,21 +37,7 @@ abstract class BaseGameAdapter<T>(
 
     open fun getComfyListItemView(i: Int, context: Context): View {
         return with(context) {
-            frameLayout {
-                cardView {
-                    cardElevation = dip(2).toFloat()
-                    useCompatPadding = true
-
-                    val v = getViewContents(i, context)
-                    v.layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT)
-                    addView(v)
-                }.lparams {
-                    width = matchParent
-                    horizontalMargin = dip(8)
-                    verticalMargin = dip(4)
-                    padding = 0
-                }
-            }
+            wrapCard { getViewContents(i, context) }
         }
     }
 
@@ -61,7 +46,9 @@ abstract class BaseGameAdapter<T>(
     }
 
     open fun getGridItemView(i: Int, context: Context): View {
-        return getComfyListItemView(i, context)
+        return with(context) {
+            wrapCard { getViewContents(i, context) }
+        }
     }
 
     abstract override fun getItemId(position: Int): Long
@@ -74,4 +61,27 @@ abstract class BaseGameAdapter<T>(
         return users.size
     }
 
+    fun Context.wrapCard(init: () -> View): View {
+        return with(this) {
+            frameLayout {
+                cardView {
+                    cardElevation = dip(2).toFloat()
+                    useCompatPadding = true
+
+                    val v = init()
+                    v.layoutParams = android.widget.FrameLayout.LayoutParams(android.widget.FrameLayout.LayoutParams.MATCH_PARENT, android.widget.FrameLayout.LayoutParams.WRAP_CONTENT)
+                    addView(v)
+                }.lparams {
+                    width = org.jetbrains.anko.matchParent
+                    horizontalMargin = dip(8)
+                    verticalMargin = dip(4)
+                    padding = 0
+                }
+            }
+        }
+    }
+
+
+
 }
+

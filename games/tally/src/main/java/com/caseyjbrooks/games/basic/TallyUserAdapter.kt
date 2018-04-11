@@ -14,6 +14,9 @@ import org.jetbrains.anko.alignParentLeft
 import org.jetbrains.anko.alignParentRight
 import org.jetbrains.anko.alignParentTop
 import org.jetbrains.anko.backgroundColor
+import org.jetbrains.anko.button
+import org.jetbrains.anko.centerInParent
+import org.jetbrains.anko.centerVertically
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.horizontalMargin
 import org.jetbrains.anko.horizontalScrollView
@@ -44,12 +47,7 @@ class TallyUserAdapter(
         return with(context) {
             verticalLayout {
                 onClick {
-                    if(vm.selected) {
-                        vm.commitTempScore()
-                    }
-                    else {
-                        vm.toggleSelected()
-                    }
+                    vm.commitTempScore()
                     notifyDataSetChanged()
                 }
                 onLongClick {
@@ -134,18 +132,128 @@ class TallyUserAdapter(
         }
     }
 
+    override fun getComfyListItemView(i: Int, context: Context): View {
+        val vm = getItem(i)
+
+        return with(context) {
+            wrapCard {
+                verticalLayout {
+                    onClick {
+                        vm.commitTempScore()
+                        notifyDataSetChanged()
+                    }
+                    onLongClick {
+                        gameViewModel.removeUser(AnkoContext.create(context, this), vm.user)
+                    }
+
+                    textView(vm.user.name) {
+                        onLongClick {
+                            gameViewModel.renameUser(AnkoContext.create(context, this), vm.user)
+                        }
+
+                        gravity = Gravity.CENTER
+                        textSize = dip(8).toFloat()
+                    }
+
+                    view {
+                        id = R.id.divider
+                        if (vm.selected) {
+                            backgroundColor = HoloColor.blueLight()
+                        }
+                        else {
+                            backgroundColor = Color.TRANSPARENT
+                        }
+                    }.lparams {
+                        height = dip(1)
+                        width = matchParent
+                    }
+
+                    relativeLayout {
+                        gravity = Gravity.CENTER
+                        if (vm.selected) {
+                            backgroundColor = Color.LTGRAY
+                        }
+                        else {
+                            backgroundColor = Color.TRANSPARENT
+                        }
+                        textView {
+                            gravity = Gravity.CENTER
+                            textSize = dip(18).toFloat()
+
+                            if (vm.tempScore != 0) {
+                                text = "${vm.tempScore}"
+                                textColor = HoloColor.blueLight()
+                            }
+                            else {
+                                text = "${vm.score}"
+                            }
+                        }.lparams {
+                            centerInParent()
+                        }
+
+                        button("+") {
+                            onClick {
+                                vm.increment(0)
+                                notifyDataSetChanged()
+                            }
+                        }.lparams {
+                            centerVertically()
+                            alignParentRight()
+                        }
+
+                        button("-") {
+                            onClick {
+                                vm.decrement(0)
+                                notifyDataSetChanged()
+                            }
+                        }.lparams {
+                            centerVertically()
+                            alignParentLeft()
+                        }
+
+                        lparams {
+                            width = matchParent
+                        }
+                    }
+
+                    view {
+                        id = R.id.divider
+
+                        if (vm.selected) {
+                            backgroundColor = HoloColor.blueLight()
+                        }
+                        else {
+                            backgroundColor = HoloColor.orangeDark()
+                        }
+
+                    }.lparams {
+                        height = dip(1)
+                        width = matchParent
+                    }
+
+                    horizontalScrollView {
+                        linearLayout {
+                            vm.history.reversed().forEach {
+                                textView("${it}") { }.lparams {
+                                    horizontalMargin = dip(4)
+                                }
+                            }
+                        }.lparams {
+                            padding = dip(4)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     override fun getCompactListItemView(i: Int, context: Context): View {
         val vm = getItem(i)
 
         return with(context) {
             relativeLayout {
                 onClick {
-                    if(vm.selected) {
-                        vm.commitTempScore()
-                    }
-                    else {
-                        vm.toggleSelected()
-                    }
+                    vm.commitTempScore()
                     notifyDataSetChanged()
                 }
                 onLongClick {
