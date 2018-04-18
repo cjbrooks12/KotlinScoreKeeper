@@ -13,6 +13,8 @@ class SevenWondersGameViewModel(
         gameId: Long
 ) : BaseGameViewModel<SevenWondersUserViewModel>(activity, component, "sevenWonders", gameId) {
 
+    var keys = SevenWondersUserViewModel.KEYS_DUEL
+
     override fun setup() {
         adapter = SevenWondersUserListAdapter(activity, component, this)
         super.setup()
