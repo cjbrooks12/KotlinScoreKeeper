@@ -6,37 +6,15 @@ import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.LinearLayout
-import com.caseyjbrooks.scorekeeper.core.api.BaseActivity
-import com.caseyjbrooks.scorekeeper.core.api.BaseApplication
-import com.caseyjbrooks.scorekeeper.core.api.BaseComponent
-import com.caseyjbrooks.scorekeeper.core.api.BaseFragment
-import com.caseyjbrooks.scorekeeper.core.api.BaseRecyclerViewGameAdapter
+import com.caseyjbrooks.scorekeeper.core.api.*
 import com.caseyjbrooks.scorekeeper.core.db.CorePreferences
-import com.caseyjbrooks.scorekeeper.core.findLong
-import org.jetbrains.anko.AnkoContext
-import org.jetbrains.anko.above
-import org.jetbrains.anko.alignParentBottom
-import org.jetbrains.anko.alignParentLeft
-import org.jetbrains.anko.alignParentRight
-import org.jetbrains.anko.alignParentTop
-import org.jetbrains.anko.backgroundColor
-import org.jetbrains.anko.button
-import org.jetbrains.anko.dip
-import org.jetbrains.anko.leftOf
-import org.jetbrains.anko.linearLayout
-import org.jetbrains.anko.matchParent
+import com.caseyjbrooks.scorekeeper.core.findString
+import org.jetbrains.anko.*
 import org.jetbrains.anko.recyclerview.v7.recyclerView
-import org.jetbrains.anko.relativeLayout
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.sdk25.coroutines.onLongClick
-import org.jetbrains.anko.view
 
 
 
@@ -54,7 +32,7 @@ class TallyGameFragment : BaseFragment() {
         component = (activity!!.application as BaseApplication).component
         component.inject(this)
 
-        val gameId = CorePreferences(activity!!, "tally").get { findLong("lastGame", { 0 }) }
+        val gameId = CorePreferences(activity!!, "tally").get { findString("lastGame", { "" }) }
         gameViewModel = TallyGameViewModel(activity!! as BaseActivity, component, gameId)
         gameViewModel.setup()
 

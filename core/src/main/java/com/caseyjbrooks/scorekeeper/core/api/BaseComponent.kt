@@ -1,7 +1,7 @@
 package com.caseyjbrooks.scorekeeper.core.api
 
 import com.caseyjbrooks.scorekeeper.core.DrawerMenuItem
-import com.caseyjbrooks.scorekeeper.core.db.CoreRoomDB
+import com.caseyjbrooks.scorekeeper.core.db.firebase.CoreFirebaseDB
 
 interface BaseComponent {
 
@@ -9,6 +9,6 @@ interface BaseComponent {
 
     fun gamesDrawerMenuItems(): Set<DrawerMenuItem>
 
-    fun db(): CoreRoomDB
+    fun db(): CoreFirebaseDB
 
 }

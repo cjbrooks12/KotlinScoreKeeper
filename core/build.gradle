@@ -42,4 +42,8 @@ dependencies {
 
     api "com.google.dagger:dagger:$allDaggerVersion"
     kapt "com.google.dagger:dagger-compiler:$allDaggerVersion"
+
+    api 'com.google.firebase:firebase-database:15.0.0'
+
+    api 'com.eden:AndroidClog:2.0.1'
 }

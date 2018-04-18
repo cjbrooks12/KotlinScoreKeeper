@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1026703711820",
+    "firebase_url": "https://scorekeeper-8b254.firebaseio.com",
+    "project_id": "scorekeeper-8b254",
+    "storage_bucket": "scorekeeper-8b254.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1026703711820:android:717769bf015ec41a",
+        "android_client_info": {
+          "package_name": "com.caseyjbrooks.scorekeeper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1026703711820-88qo7elnqlde9tj48s01kbore131il18.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.caseyjbrooks.scorekeeper",
+            "certificate_hash": "ce7e4a4153dc849cf0cec930956ce8c48d93daff"
+          }
+        },
+        {
+          "client_id": "1026703711820-5jbj6i34rt33m4g0hrkpsp58fp9rc2rv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCiqqTJn4ASLf7x2iZvqwNUwkiIpT0U4Lg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1026703711820-5jbj6i34rt33m4g0hrkpsp58fp9rc2rv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

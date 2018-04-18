@@ -1,32 +1,21 @@
 package com.caseyjbrooks.scorekeeper.core.db.users
 
-import android.arch.persistence.room.*
-
-@Dao
 interface GameUserDAO {
 
-    @Query("select * from game_users where game_id = :gameId")
-    fun getAllForGame(gameId: Long): List<GameUser>
+    fun getAllForGame(gameId: String): List<GameUser>
 
-    @Query("select * from game_users where user_id = :userId")
-    fun getAllForUser(userId: Long): List<GameUser>
+    fun getAllForUser(userId: String): List<GameUser>
 
-    @Query("select * from game_users where game_id = :gameId and user_id = :userId")
-    fun findGameUser(gameId: Long, userId: Long): GameUser
+    fun findGameUser(gameId: String, userId: String): GameUser?
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertGameUser(gameUser: GameUser)
 
-    @Update(onConflict = OnConflictStrategy.REPLACE)
     fun updateGameUser(gameUser: GameUser)
 
-    @Query("delete from game_users where game_id = :gameId and user_id = :userId")
-    fun removeUserFromGame(gameId: Long, userId: Long)
+    fun removeUserFromGame(gameId: String, userId: String)
 
-    @Query("delete from game_users where user_id = :userId")
-    fun deleteByUser(userId: Long)
+    fun deleteByUser(userId: String)
 
-    @Query("delete from game_users where game_id = :gameId")
-    fun deleteByGame(gameId: Long)
+    fun deleteByGame(gameId: String)
 
 }

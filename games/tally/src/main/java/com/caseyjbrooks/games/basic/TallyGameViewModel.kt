@@ -7,20 +7,15 @@ import com.caseyjbrooks.scorekeeper.core.api.BaseComponent
 import com.caseyjbrooks.scorekeeper.core.api.BaseGameViewModel
 import com.caseyjbrooks.scorekeeper.core.db.users.GameUser
 import com.caseyjbrooks.scorekeeper.core.db.users.User
-import org.jetbrains.anko.AnkoContext
-import org.jetbrains.anko.alert
+import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.Appcompat
-import org.jetbrains.anko.customView
-import org.jetbrains.anko.editText
-import org.jetbrains.anko.toast
-import org.jetbrains.anko.verticalLayout
 import org.json.JSONArray
 import org.json.JSONObject
 
 class TallyGameViewModel(
         activity: BaseActivity,
         component: BaseComponent,
-        gameId: Long
+        gameId: String
 ) : BaseGameViewModel<TallyUserViewModel>(activity, component, "tally", gameId) {
 
     val buttonValues: MutableList<Int> = emptyList<Int>().toMutableList()

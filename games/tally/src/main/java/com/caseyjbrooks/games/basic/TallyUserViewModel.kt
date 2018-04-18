@@ -21,7 +21,7 @@ class TallyUserViewModel(
         const val TIMEOUT = 6000L
     }
 
-    val id: Long = user.id
+    val id: String = user.id
 
     val score: Int
         get() {

@@ -7,18 +7,9 @@ import android.view.View
 import com.caseyjbrooks.scorekeeper.core.api.BaseActivity
 import com.caseyjbrooks.scorekeeper.core.api.BaseComponent
 import com.caseyjbrooks.scorekeeper.core.api.BaseGameAdapter
-import org.jetbrains.anko.AnkoContext
-import org.jetbrains.anko.backgroundColor
-import org.jetbrains.anko.button
-import org.jetbrains.anko.dip
-import org.jetbrains.anko.linearLayout
-import org.jetbrains.anko.matchParent
+import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.sdk25.coroutines.onLongClick
-import org.jetbrains.anko.textView
-import org.jetbrains.anko.topPadding
-import org.jetbrains.anko.verticalLayout
-import org.jetbrains.anko.view
 
 class SevenWondersUserListAdapter(
         activity: BaseActivity,
@@ -80,7 +71,7 @@ class SevenWondersUserListAdapter(
         }
     }
 
-    override fun getItemId(position: Int): Long {
+    override fun getItemIdString(position: Int): String {
         return getItem(position).id
     }
 

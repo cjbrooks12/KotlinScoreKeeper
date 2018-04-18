@@ -1,23 +1,15 @@
 package com.caseyjbrooks.scorekeeper.core.db.users
 
-import android.arch.persistence.room.*
-
-@Dao
 interface GameDAO {
 
-    @Query("select * from games")
     fun getAllGames(): List<Game>
 
-    @Query("select * from games where game_type = :gameType and id = :id")
-    fun findGameById(gameType: String, id: Long): Game
+    fun findGameById(gameType: String, id: String): Game?
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertGame(game: Game): Long
+    fun insertGame(game: Game): String
 
-    @Update(onConflict = OnConflictStrategy.REPLACE)
     fun updateGame(game: Game)
 
-    @Delete
     fun deleteGame(game: Game)
 
 }

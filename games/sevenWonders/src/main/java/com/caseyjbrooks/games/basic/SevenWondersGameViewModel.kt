@@ -10,7 +10,7 @@ import org.json.JSONObject
 class SevenWondersGameViewModel(
         activity: BaseActivity,
         component: BaseComponent,
-        gameId: Long
+        gameId: String
 ) : BaseGameViewModel<SevenWondersUserViewModel>(activity, component, "sevenWonders", gameId) {
 
     var keys = SevenWondersUserViewModel.KEYS_DUEL

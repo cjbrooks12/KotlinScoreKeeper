@@ -35,7 +35,7 @@ class SevenWondersUserViewModel(
         )
     }
 
-    val id: Long = user.id
+    val id: String = user.id
 
     lateinit var scores: JSONObject
 

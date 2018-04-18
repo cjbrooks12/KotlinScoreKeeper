@@ -360,7 +360,7 @@ class TallyUserAdapter(
         }
     }
 
-    override fun getItemId(position: Int): Long {
+    override fun getItemIdString(position: Int): String {
         return getItem(position).id
     }
 

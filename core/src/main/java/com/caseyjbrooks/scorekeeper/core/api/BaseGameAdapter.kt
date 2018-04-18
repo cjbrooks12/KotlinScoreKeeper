@@ -5,12 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.FrameLayout
+import org.jetbrains.anko.*
 import org.jetbrains.anko.cardview.v7.cardView
-import org.jetbrains.anko.dip
-import org.jetbrains.anko.frameLayout
-import org.jetbrains.anko.horizontalMargin
-import org.jetbrains.anko.padding
-import org.jetbrains.anko.verticalMargin
 
 abstract class BaseGameAdapter<T>(
         val activity: BaseActivity,
@@ -51,7 +47,11 @@ abstract class BaseGameAdapter<T>(
         }
     }
 
-    abstract override fun getItemId(position: Int): Long
+    abstract fun getItemIdString(position: Int): String
+
+    override fun getItemId(position: Int): Long {
+        return 0
+    }
 
     override fun getItem(position: Int): T {
         return users[position]
